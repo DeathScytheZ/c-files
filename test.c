@@ -1,30 +1,81 @@
 #include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 #include <stdlib.h>
-#include <pthread.h>
-#include <unistd.h>
-
-int counter = 0;
-pthread_mutex_t lock;
-
-void* counter_incrementer(){
-	sleep(rand() % (5 + 1));
-	pthread_mutex_lock(&lock);
-	counter++;
-	printf("counter incremented! \n");
-	pthread_mutex_unlock(&lock);
+#include <limits.h>
+int Max(int n, ...){
+    if(n == 0){
+        return INT_MIN; 
+    }
+    int max;
+    va_list args;
+    va_start(args, n);
+    for(int i = 0; i < n; i++){
+        if(i == 0){
+            max = va_arg(args, int);
+        }else{
+            int num = va_arg(args ,int);
+            if(num > max){
+               max = num;
+            }
+        }
+    }
+    va_end(args);
+    return max;
 }
 
-int main(){
-	pthread_t threads[5];
-	pthread_mutex_init(&lock, NULL);
-	srand(time(NULL));
-	for(int i = 0; i < 5; i++){
-		pthread_create(&threads[i], NULL, counter_incrementer, NULL);
-	}
+int greatest(int argc, char* argv[]){
+    if(!argc){ 
+        return INT_MIN;
+    }
+    int max = atoi(argv[1]); 
+    for(int i = 2; i < argc; i++){
+        int num = atoi(argv[i]);
+        max = (num > max) ? num : max;
+    }
+    return max;
+}
 
-	for(int i = 0; i < 5; i++){
-		pthread_join(threads[i], NULL);
-	}
-	
-	printf("%d", counter);
+int sum(int n, ...){
+    if(!n){
+        return INT_MIN;
+    }
+    int result = 0;
+    va_list ptr;
+    va_start(ptr, n);
+    for(int i = 0; i < n; i++){
+        result += va_arg(ptr, int); 
+    }
+    va_end(ptr);
+    return result;
+}
+
+
+int largest(int n, ...){
+    if(!n){
+        return INT_MIN;
+    }
+    va_list ptr;
+    va_start(ptr, n);
+    int max = va_arg(ptr, int);
+    for(int i = 0; i < n; i++){
+        int num = va_arg(ptr, int);
+        max = (num > max) ? num : max;
+    }
+    va_end(ptr);
+    return max;
+}
+
+void print(int n, ...){
+    va_list args;
+    va_start(args, n);
+    for(int i = 0; i < n; i++){
+        printf("%s ", va_arg(args, char*));
+    }
+    va_end(args);
+}
+
+
+int main(int argc, char* argv[]){
+    print(3, "hi,", "how's it going?", "hope you're doing well (:");
 }
