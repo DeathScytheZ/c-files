@@ -32,6 +32,5 @@ int myprintf(const char* str, ...){
 }
 
 int main(){
-    myprintf("%s%h\n", "gis");
-    printf("%h", "gis");
+    myprintf("%s%d\n", "gis", 5);
 }
