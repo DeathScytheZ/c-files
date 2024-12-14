@@ -2,17 +2,35 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#define DEST_PORT 23
+#define DEST_IP "10.12.110.57"
 
 int main(){
-    struct sockaddr_in myaddrinin;
-    myaddrin.sin_family = AF_INET;
-    myaddrin.sin_port = htons(3490);
-    inet_aton("127.0.53.9", &myaddrin.sin_addr);
-    struct sockaddr 
-    printf("Family: %d\n", myaddrin.sin_family); 
-    printf("Port: %d\n", myaddrin.sin_port); 
-    printf("IP: %s\n", inet_ntoa(myaddrin.sin_addr)); 
+    int sockfd;
+    struct sockaddr_in dest_addr;
+    dest_addr.sin_family = AF_INET;
+    dest_addr.sin_port = DEST_PORT;
+    //inet_aton(DEST_IP, &dest_addr.sin_addr);
+    dest_addr.sin_addr.s_addr = inet_addr(DEST_IP);
+    sockfd = socket(PF_INET, SOCK_STREAM, 0);
+    if(sockfd == -1){
+        perror("socket 1 failed!");
+        exit(1);
+    }
+    printf("socket file descriptor: %d, IP address: %s\n", sockfd, inet_ntoa(dest_addr.sin_addr));
+    if(connect(sockfd, (struct sockaddr*)&dest_addr, sizeof(dest_addr)) == -1){
+        perror("connect failed!");     
+        close(sockfd);
+        exit(1);
+    }
+    close(sockfd);
 }
+
+
+
+
+
