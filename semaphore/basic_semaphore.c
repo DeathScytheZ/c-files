@@ -13,6 +13,7 @@ void* print(void* arg){
     sem_wait(&semaphore);
     printf("Hey, this is thread %d (:\n", id);
     sem_post(&semaphore);
+    return NULL;
 }
 
 int main(){

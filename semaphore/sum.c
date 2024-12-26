@@ -17,6 +17,7 @@ void* sum(void* arg){
             current++;
             result += current;
             printf("Thread %d incremented the value of result, the new value is: %d\n", id, result);
+            usleep(500000);
         }
         sem_post(&semaphore);
         usleep(50000);

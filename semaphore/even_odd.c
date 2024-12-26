@@ -10,11 +10,11 @@ int counter = 0;
 
 void* print_even(void* arg){
     while(1){
-    sem_wait(&sem_even);
-    printf("Even number: %d\n", counter);
-    counter++;
-    sleep(1);
-    sem_post(&sem_odd);
+        sem_wait(&sem_even);
+        printf("Even number: %d\n", counter);
+        counter++;
+        sleep(1);
+        sem_post(&sem_odd);
     }
 }
 

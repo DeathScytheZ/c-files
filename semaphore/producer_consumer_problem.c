@@ -20,6 +20,7 @@ void* produce(void* arg){
     printf("An item has been produced.\n");
     pthread_mutex_unlock(&lock);
     sem_post(&semFull);
+    return NULL;
 }
 
 void* consume(void* arg){
@@ -31,6 +32,7 @@ void* consume(void* arg){
     printf("Item %d has been consumed.\n", consumed_item);
     pthread_mutex_unlock(&lock);
     sem_post(&semEmpty);
+    return NULL;
 }
 
 int main(){

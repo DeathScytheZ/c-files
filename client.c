@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 
 #define DEST_PORT 23
-#define DEST_IP "10.12.110.57"
+#define DEST_IP "127.0.0.1"
 
 int main(){
     int sockfd;
@@ -21,7 +21,6 @@ int main(){
         perror("socket 1 failed!");
         exit(1);
     }
-    printf("socket file descriptor: %d, IP address: %s\n", sockfd, inet_ntoa(dest_addr.sin_addr));
     if(connect(sockfd, (struct sockaddr*)&dest_addr, sizeof(dest_addr)) == -1){
         perror("connect failed!");     
         close(sockfd);
@@ -29,8 +28,4 @@ int main(){
     }
     close(sockfd);
 }
-
-
-
-
 
